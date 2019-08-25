@@ -1,6 +1,6 @@
 {
   "name": "@gnu-slash-meme/stdlib",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "dank stdlib no proprietary very free",
   "main": "build/main.js",
   "types": "build/main.d.ts",

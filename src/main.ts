@@ -1,3 +1,4 @@
+import fakeModule from './fake-module'
 import * as cp from 'child_process'
 import { Transform } from 'stream'
 import * as pth from 'path'
@@ -458,6 +459,7 @@ const PromiseBoss = () => {
 const $HOME = os.homedir()
 
 const api = {
+  fakeModule,
   $HOME,
   fs,
   MapMap,
