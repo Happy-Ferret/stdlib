@@ -1,0 +1,26 @@
+{
+  "name": "stdlib",
+  "version": "1.0.0",
+  "description": "dank stdlib no proprietary very free",
+  "main": "build/main.js",
+  "types": "build/main.d.ts",
+  "scripts": {
+    "test": "echo \"tests pass\"",
+    "build": "tsc",
+    "prepublish": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GNU-Meme/stdlib.git"
+  },
+  "author": "GNU/Meme",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GNU-Meme/stdlib/issues"
+  },
+  "homepage": "https://github.com/GNU-Meme/stdlib#readme",
+  "devDependencies": {
+    "@types/node": "12.7.2",
+    "typescript": "3.5.3"
+  }
+}
