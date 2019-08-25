@@ -1,5 +1,5 @@
 {
-  "name": "stdlib",
+  "name": "@gnu-slash-meme/stdlib",
   "version": "1.0.0",
   "description": "dank stdlib no proprietary very free",
   "main": "build/main.js",
