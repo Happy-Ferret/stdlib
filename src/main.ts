@@ -1,5 +1,6 @@
 import fakeModule from './fake-module'
 import * as cp from 'child_process'
+import shellEnv from './shell-env'
 import { Transform } from 'stream'
 import * as pth from 'path'
 import * as net from 'net'
@@ -460,6 +461,7 @@ const $HOME = os.homedir()
 
 const api = {
   fakeModule,
+  shellEnv,
   $HOME,
   fs,
   MapMap,
