@@ -1,6 +1,6 @@
 {
   "name": "@gnu-slash-meme/stdlib",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "dank stdlib no proprietary very free",
   "main": "build/main.js",
   "types": "build/main.d.ts",
@@ -8,7 +8,7 @@
     "test": "echo \"tests pass\"",
     "build": "tsc",
     "watch": "tsc --watch",
-    "prepublish": "npm run build"
+    "prepare": "npm run build"
   },
   "repository": {
     "type": "git",

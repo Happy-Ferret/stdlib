@@ -16,7 +16,7 @@ export interface PromiseBossOptions {
   timeout?: number
 }
 
-export interface Task<T> {
+export interface ITask<T> {
   done: (value: T) => void
   promise: Promise<T>
 }
@@ -428,13 +428,13 @@ const PromiseBoss = () => {
   const $cancel = Symbol('cancel')
   type CancelFn = () => any
   let previousCancel: CancelFn | null
-  let externalControlTask = api.CreateTask()
+  let externalControlTask = api.Task()
 
   /** Schedule a cancellable promise which can be cancelled by next invocation or timeout */
   const schedule = <T>(cancellablePromise: CancelPromise<T>, options: PromiseBossOptions): Promise<T> => new Promise(async (ok, no) => {
     previousCancel && previousCancel()
     previousCancel = cancellablePromise.cancel
-    externalControlTask = api.CreateTask()
+    externalControlTask = api.Task()
 
     const result = await Promise.race([
       cancellablePromise.promise,
@@ -512,7 +512,7 @@ const api = {
     asCwd: (m = '') => pth.dirname(api.uri.toPath(m)),
     asFile: (m = '') => pth.basename(api.uri.toPath(m)),
   },
-  CreateTask: <T>(): Task<T> => ( (done = (_: T) => {}, promise = new Promise<T>(m => done = m)) => ({ done, promise }) )(),
+  Task: <T>(): ITask<T> => ( (done = (_: T) => {}, promise = new Promise<T>(m => done = m)) => ({ done, promise }) )(),
   uuid: (): string => (<any>[1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g,(a: any)=>(a^Math.random()*16>>a/4).toString(16)),
   shell: (cmd: string, opts?: object): Promise<string> => new Promise(fin => cp.exec(cmd, opts, (_, out) => fin(out + ''))),
   getPipeName: (name: string) => process.platform === 'win32'
