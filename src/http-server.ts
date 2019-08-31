@@ -4,7 +4,7 @@ import * as url from 'url'
 import * as fs from 'fs'
 import std from './main'
 
-interface Request extends http.IncomingMessage {
+export interface Request extends http.IncomingMessage {
   params: any
   body: string
 }
