@@ -22,7 +22,7 @@ const mimes = new Map([
 
 const getMimeType = (m: string) => mimes.get(path.extname(m)) || 'text/html'
 
-export const makeFileSender = (publicPath: string) => async (res: http.ServerResponse, filename: string) => {
+const makeFileSender = (publicPath: string) => async (res: http.ServerResponse, filename: string) => {
   res.setHeader('Content-Type', getMimeType(filename))
   const fullpath = path.join(publicPath, filename)
   const fileExists = await std.fs.exists(fullpath)
@@ -37,7 +37,7 @@ const bodyReader = (req: http.IncomingMessage): Promise<string> => new Promise((
   req.on('error', fail)
 })
 
-export const makeRouter = (routePrefix = '/api', cors?: string) => {
+const makeRouter = (routePrefix = '/api', cors?: string) => {
   type HttpHandler = (req: Request, res: http.ServerResponse) => void
 
   interface Param {
@@ -130,3 +130,5 @@ export const makeRouter = (routePrefix = '/api', cors?: string) => {
     get: (_, method: string) => (path: string, fn: HttpHandler) => addRoute({ method, path, fn }),
   })
 }
+
+export default { makeRouter, makeFileSender }

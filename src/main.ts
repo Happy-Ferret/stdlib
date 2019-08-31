@@ -1,3 +1,4 @@
+import httpServer from './http-server'
 import fakeModule from './fake-module'
 import * as cp from 'child_process'
 import shellEnv from './shell-env'
@@ -460,6 +461,7 @@ const PromiseBoss = () => {
 const $HOME = os.homedir()
 
 const api = {
+  http: httpServer,
   fakeModule,
   shellEnv,
   $HOME,
