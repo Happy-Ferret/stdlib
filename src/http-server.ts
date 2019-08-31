@@ -9,6 +9,16 @@ export interface Request extends http.IncomingMessage {
   body: string
 }
 
+type Controller = (req: Request, res: http.ServerResponse) => any
+
+export interface Router {
+  (req: http.IncomingMessage, res: http.ServerResponse): void
+  get: (path: string, fn: Controller) => void
+  post: (path: string, fn: Controller) => void
+  put: (path: string, fn: Controller) => void
+  delete: (path: string, fn: Controller) => void
+}
+
 const mimes = new Map([
   ['.js', 'application/javascript'],
   ['.css', 'text/css'],
@@ -38,8 +48,7 @@ const bodyReader = (req: http.IncomingMessage): Promise<string> => new Promise((
 })
 
 const makeRouter = (routePrefix = '/api', cors?: string) => {
-  type HttpHandler = (req: Request, res: http.ServerResponse) => void
-
+  type HttpHandler = (req: http.IncomingMessage, res: http.ServerResponse) => void
   interface Param {
     key: string
     ix: number
@@ -49,7 +58,7 @@ const makeRouter = (routePrefix = '/api', cors?: string) => {
     matcher: RegExp
     params: Param[]
     method: string
-    fn: HttpHandler
+    fn: Controller
   }
 
   const routes: Route[] = []
@@ -126,9 +135,11 @@ const makeRouter = (routePrefix = '/api', cors?: string) => {
     res.end(resData)
   }
 
-  return new Proxy(router, {
+  const api = new Proxy(router, {
     get: (_, method: string) => (path: string, fn: HttpHandler) => addRoute({ method, path, fn }),
   })
+
+  return api as unknown as Router
 }
 
 export default { makeRouter, makeFileSender }
