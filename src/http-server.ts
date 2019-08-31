@@ -6,7 +6,7 @@ import std from './main'
 
 export interface Request extends http.IncomingMessage {
   params: any
-  body: string
+  body: any
 }
 
 type Controller = (req: Request, res: http.ServerResponse) => any
