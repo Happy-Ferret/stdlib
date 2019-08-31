@@ -534,6 +534,14 @@ const api = {
       ? fullpath.split(cwd + '/')[1]
       : fullpath.includes($HOME) ? fullpath.replace($HOME, '~') : fullpath,
   },
+  args: process.argv.slice(2).reduce((res, arg, ix, arr) => {
+    const next = arr[ix + 1]
+    const nextIsValue = typeof next === 'string' && !next.startsWith('--')
+    const rawval = nextIsValue ? next : true
+    const value = Number.isNaN(parseInt(rawval as any)) ? rawval : <any>rawval - 0
+    if (arg.startsWith('--')) Reflect.set(res, arg.slice(2), value)
+    return res
+  }, {} as any),
 }
 
 export default api
