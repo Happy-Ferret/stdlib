@@ -458,6 +458,18 @@ const PromiseBoss = () => {
   return { schedule, cancelCurrentPromise }
 }
 
+const deepFreeze = (obj: any) => {
+  Object.freeze(obj)
+  Object.getOwnPropertyNames(obj).forEach(prop => {
+    const thawed = obj.hasOwnProperty(prop)
+      && obj[prop] !== null
+      && (typeof obj[prop] === 'object' || typeof obj[prop] === 'function')
+      && !Object.isFrozen(obj[prop])
+    if (thawed) deepFreeze(obj[prop])
+  })
+  return obj
+}
+
 const $HOME = os.homedir()
 
 const api = {
@@ -542,6 +554,7 @@ const api = {
     if (arg.startsWith('--')) Reflect.set(res, arg.slice(2), value)
     return res
   }, {} as any),
+  deepFreeze,
 }
 
 export default api
