@@ -470,6 +470,26 @@ const deepFreeze = (obj: any) => {
   return obj
 }
 
+const patchObject = <T extends object>(original: T, patch: Partial<T>): boolean => {
+  let changed = false
+  const op = (original: T, patch: Partial<T>) => {
+    Object.keys(patch).forEach(key => {
+      const oval = Reflect.get(original, key)
+      const pval = Reflect.get(patch, key)
+      const oisobj = api.is.object(oval)
+      const pisobj = api.is.object(pval)
+      if (pisobj && oval != null) return op(oval, pval)
+      const same = !pisobj && !oisobj && oval === pval
+      if (same) return
+      changed = true
+      Reflect.set(original, key, pval)
+    })
+  }
+
+  op(original, patch)
+  return changed
+}
+
 const $HOME = os.homedir()
 
 const api = {
@@ -555,6 +575,7 @@ const api = {
     return res
   }, {} as any),
   deepFreeze,
+  patchObject,
 }
 
 export default api
